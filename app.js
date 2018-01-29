@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 // cargar rutas
+var user_routes = require('./routes/user');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -13,9 +14,7 @@ app.use(bodyParser.json());
 // configurar cabeceras http
 
 // carga de rutas base
-app.get('/pruebas', (req, res) => {
-    res.status(200).send({message: 'mensaje de respuesta'});
-});
+app.use('/api', user_routes);
 
 
 // exportamos el modulo
