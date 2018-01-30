@@ -1,5 +1,6 @@
 'use strict'
 
+var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
 var path = require('path');
 var Artist = require('../models/artist');
@@ -43,7 +44,38 @@ function saveArtist(req, res) {
     });
 }
 
+function getArtists(req, res) {
+    
+    if (req.params.page) {
+        var page = req.params.page;
+    } else {
+        var page = 1;
+    }
+
+    var itemPerPage = 3;
+
+    Artist.find().sort('name').paginate(page, itemPerPage, (err, artists, total) => {
+        if (err) {
+            res.status(500).send({ message: 'error en la peticion'});
+            
+        } else {
+            if (!artists) {
+                res.status(404).send({ message: 'no hay artistas'});
+                
+            } else {
+                return res.status(200).send({ 
+                    total_items: total,
+                    artists: artists
+                });
+            
+            }
+            
+        }
+    }); 
+}
+
 module.exports = {
     getArtist,
-    saveArtist
+    saveArtist,
+    getArtists
 }
