@@ -92,6 +92,11 @@ typings/
 # dotenv environment variables file
 .env
 
+# songs
+uploads/albums
+uploads/artists
+uploads/songs
+uploads/users
 
 
 # End of https://www.gitignore.io/api/node,angular
